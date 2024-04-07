@@ -5,6 +5,7 @@ from seahorse.game.game_state import GameState
 
 MAX_PIECES = 14
 CENTER_HEX = (8, 4)
+DEPTH = 1
 
 class MyPlayer(PlayerAbalone):
     """
@@ -39,7 +40,7 @@ class MyPlayer(PlayerAbalone):
 
         for action in initial_action:
             next_state = action.get_next_game_state()
-            score = self.minimax(next_state, 1, True)
+            score = self.minimax(next_state, DEPTH, True)
 
             if score > best_score:
                 best_score = score
