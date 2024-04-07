@@ -34,11 +34,12 @@ class MyPlayer(PlayerAbalone):
         Returns:
             Action: selected feasible action
         """
-        initial_action = current_state.get_possible_actions()
+        initial_actions = current_state.get_possible_actions()
+        sorted_actions = sorted(initial_actions, key=self.evaluate_action_priority, reverse=True)
         best_action = None
         best_score = float('-inf')
 
-        for action in initial_action:
+        for action in sorted_actions:
             next_state = action.get_next_game_state()
             score = self.minimax(next_state, DEPTH, True)
 
@@ -94,6 +95,23 @@ class MyPlayer(PlayerAbalone):
         score = piece_count_weight * pieces_count_heuristic + center_control_weight * center_proximity_heuristic + adjacency_weight * adjacency_heuristic
         
         return score
+    
+    def evaluate_action_priority(self, action: Action) -> int:
+        """
+        Prioritize actions based on the change in piece counts. Moves that result in a better piece count difference are preferred.
+        Args:
+            action (Action): The action to evaluate
+        Returns:
+            int: The priority of the action
+        """
+        current_state = action.get_current_game_state()
+        next_state = action.get_next_game_state()
+
+        current_score = self.pieces_count(current_state)
+        next_score = self.pieces_count(next_state)
+
+        return next_score - current_score
+
 
     def pieces_count(self, state: GameStateAbalone) -> int:
         """
