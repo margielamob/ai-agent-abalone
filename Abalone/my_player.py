@@ -85,8 +85,8 @@ class MyPlayer(PlayerAbalone):
             int: The score of the state
         """
         piece_count_weight = 10.0
-        center_control_weight = 3.0
-        adjacency_weight = 1.0
+        center_control_weight = 1.0
+        adjacency_weight = 3.0
 
         pieces_count_heuristic = self.pieces_count(state)
         center_proximity_heuristic = self.center_proximity_count(state)
